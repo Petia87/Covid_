@@ -1,11 +1,11 @@
 <template>
-  <h1>{{city}}</h1>
+  <h1>{{country}}</h1>
 </template>
 
 <script>
 export default {
   name: "TheHeadH1",
-  props: ["city"],
+  props: ["country"],
 }
 </script>
 

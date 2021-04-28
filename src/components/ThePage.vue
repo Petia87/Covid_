@@ -1,10 +1,10 @@
 <template>
   <div class="body">
-    <TheHeadH1 city="Cameroon"/>
+    <TheHeadH1 v-bind:country="country" />
     <CurrentDate />
     <BlueBoxContainer />
-    <TextArea />
-    <Button />
+    <TextArea @selectedCountry="onSelectedCountry" />
+  
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import TheHeadH1 from "./TheHeadH1.vue";
 import CurrentDate from "./CurrentDate.vue";
 import BlueBoxContainer from "./BlueBoxContainer.vue";
 import TextArea from "./TextArea.vue";
-import Button from "./Button.vue";
+
 
 export default {
   name: "ThePage",
@@ -22,7 +22,17 @@ export default {
     CurrentDate,
     BlueBoxContainer,
     TextArea,
-    Button,
+   
+  },
+  methods: {
+    onSelectedCountry(country) {
+      this.country = country;
+    },
+  },
+  data: function () {
+    return {
+      country: "",
+    };
   },
 };
 </script>
