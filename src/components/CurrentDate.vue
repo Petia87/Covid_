@@ -1,34 +1,32 @@
 <template>
-  <div>{{ currentDate() }}</div>
+  <div>{{ currentDate }}</div>
 </template>
 
 <script>
+import moment from "moment";
 export default {
-  name: "BlueBox",
+  name: "CurrentDate",
   props: {},
+  data: function () {
+    return {
+      currentDate: "",
+    };
+  },
+   created() {
+      this.getNow();
+    this.currentDate = this.getCurrentDateTime();
+    },
   methods: {
-    currentDate() {
+    getCurrentDateTime() {
+      return moment().format("MMMM Do YYYY HH:mm:ss");
+    },
+   
+    getNow: function () {
       const current = new Date();
-      var months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      const date = `${
-        months[current.getMonth() + 1]
-      } ${current.getDate()}st ${current.getFullYear()}`;
-      const time = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}pm`;
+      const date = `${[current.getMonth() + 1]} ${current.getDate()} ${current.getFullYear()}`;
+      const time = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`;
       const dateTime = date + " " + time;
-      return dateTime;
+      this.currentDate = dateTime
     },
   },
 };
@@ -36,7 +34,6 @@ export default {
 
 
 <style scoped>
-
 div {
   font-size: 1rem;
   margin: 0;

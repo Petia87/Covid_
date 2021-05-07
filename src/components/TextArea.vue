@@ -1,62 +1,81 @@
 <template>
-  <select @change="onChange" name="countries" class="countries">
-    <option v-for="country in countries" :key="country" v-bind:value="country">
-      {{ country }}
+  <select
+    v-model="selectedCountry"
+    @change="onChange"
+    name="countries"
+    class="countries"
+  >
+    <option
+      v-for="country in countries"
+      :key="country"
+      v-bind:value="country.Slug"
+    >
+      {{ country.Country }}
       <!-- v-bind country да не е стринг а променлива-->
     </option>
   </select>
-  <button @click="onClick" name="countries" class="countries">
-  Clear Country
-</button>
+  {{ selectedCountry }}
+  <button @click="onReset" name="countries" class="bcountries">
+    Clear Country
+  </button>
 </template>
 
 <script>
-import { countryList } from "../data/countries.js";
-
 export default {
   name: "TextArea",
-  data: function () {
-    //функция връщаш обект
+ emits: ["selectedCountry", "resetCountry"],
+ data: function () {
     return {
-      countries: countryList, // Вътрешни пропъртита за този обект
+      countries: [],
       selectedCountry: "",
     };
   },
   mounted() {
-    // console.log(countryList); Принтират се държави в конзолата
+    const userChoice = window.localStorage.getItem("selectedCountry");
+    if (userChoice) {
+      this.selectedCountry = userChoice;
+      
+    }
+    this.getCountries();
   },
   methods: {
-    onChange(eventInfo) {
-      this.selectedCountry = eventInfo.target.value;
-      //запазваме селектирната държава в паметта на компонента като създаваме вараябъл в дата ,която пази селект. държава
-    //raise event
-    this.$emit("selectedCountry", this.selectedCountry)
-    },
-     onClick() {
-      this.selectedCountry = "";
+    onChange() {
+      //raise event
       this.$emit("selectedCountry", this.selectedCountry);
     },
- 
+    onReset() {
+      this.selectedCountry = "";
+      this.$emit("resetCountry")
+    },
+    getCountries() {
+      fetch("https://api.covid19api.com/countries")
+        .then((respons) => {
+          return respons.json();
+        })
+        .then((result) => {
+          this.countries = result;
+        });
+    },
   },
 };
 </script>
 
 
 <style scoped>
-.city {
+.countries {
   display: block;
   width: 80%;
   padding: 0.5rem;
   display: block;
   margin: 0 auto;
 }
-button{
-  display: inline;
-  margin-top:1rem ;
+button {
+  display: inline-block;
+  margin-top: 1rem;
   margin-left: -30rem;
   padding: 0.5rem 0.1rem;
   background: rgb(68, 132, 123);
-  color:white ;
-  margin-bottom:10rem;
+  color: white;
+  margin-bottom: 10rem;
 }
 </style>

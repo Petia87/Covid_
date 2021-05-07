@@ -1,8 +1,8 @@
 <template>
   <div class="main">
-    <BlueBox title="Death" count="0"  total=111 />
-     <BlueBox title="Cases" count="0"  total=939 />
-      <BlueBox title="Death" count="0"  total=111 />
+    <BlueBox title="Death" v-bind:count="casesCount"  total="" />
+    <BlueBox title="Cases" v-bind:count="deathsCount" total="" isDeaths="true"/>
+   
    
   </div>
 </template>
