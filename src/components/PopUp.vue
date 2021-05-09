@@ -2,7 +2,7 @@
   <div v-if="show" class="backdrop">
     <div class="popup-container">
       {{massage}}
- <button @click="onClose">Close</button>
+ <button @click="onClose" class="close">Close</button>
     </div>
      </div>
 </template>
@@ -36,12 +36,10 @@ export default {
   top: 50%;
   left: 30%;
   padding: 2rem;
+  color: aliceblue;
 }
-.popup-container p {
-  padding: 0;
-  margin: 0;
-}
-button {
+
+.close {
   position: absolute;
   bottom: 11.9rem;
   margin: 0.5rem 0;

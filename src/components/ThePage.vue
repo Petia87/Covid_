@@ -2,29 +2,32 @@
   <div class="body">
     <TheHeadH1 v-bind:country="country" />
     <CurrentDate />
-    <BlueBoxContainer />
+    <div class="main">
+    <BlueBox title="Death" v-bind:count="casesCount" total="" />
+    <BlueBox title="Cases" v-bind:count="deathsCount" total="" isDeaths="true"
+    />
+  </div>
     <TextArea
       @selectedCountry="onSelectedCountry"
       @resetCountry="onResetCountry"
     />
-    <PopUp
+    <PopUp>
       v-bind:show="showPopup"
       @popupClose="closePopup"
-      massage="No data available for this country"
-    />
-    <PopUp
+      message="No data available for this country"
+    <PopUp/>
+    <PopUp>
       v-bind:show="showError"
       @popupClose="closePopup"
-      massage="Serve is down"
-          />
-             <!-- v-bind - in order to accept it as varaible, not string -->
+      message="Server is down"
+   <PopUp/>
   </div>
 </template>
 
 <script>
 import TheHeadH1 from "./TheHeadH1.vue";
 import CurrentDate from "./CurrentDate.vue";
-import BlueBoxContainer from "./BlueBoxContainer.vue";
+import BlueBox from "./BlueBox.vue";
 import TextArea from "./TextArea.vue";
 import PopUp from "./PopUp.vue";
 
@@ -33,30 +36,33 @@ export default {
   components: {
     TheHeadH1,
     CurrentDate,
-    BlueBoxContainer,
+    BlueBox,
     TextArea,
     PopUp,
-  },
+  },//Nina
   methods: {
     closePopup() {
+      //we close the popup by setting showPopup to false
       this.showPopup = false;
       this.showError = false;
     },
     onResetCountry() {
-      this.country = "";
       this.casesCount = 0;
       this.deathsCount = 0;
+      this.country = "";
     },
     onSelectedCountry(country) {
-      this.country = country;
+      //we can save the selected country in the localstorage
       this.casesCount = 0;
       this.deathsCount = 0;
-      if (this.country !== "") {
+      this.country = country;
+//Nina
+       if (this.country !== "") {
         fetch(
           `https://api.covid19api.com/country/${country}/status/confirmed?from=2020-03-01T08:00:00Z&to=2020-03-01T09:00:00Z`
         )
           .then((response) => {
-            return response.json();
+            return response.json(); //decodding the response for js
           })
           .then((data) => {
             if (data.length === 0) {
@@ -64,18 +70,37 @@ export default {
               this.showPopup = true;
             } else {
               this.casesCount = data[0].Cases;
-             console.log(this.country, this.casesCount);
+              console.log(this.country, this.casesCount);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            this.showError = true;
+          });
+
+        fetch(
+          `https://api.covid19api.com/country/${country}/status/deaths?from=2020-03-01T08:00:00Z&to=2020-03-01T09:00:00Z`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((answer) => {
+            if (answer.length === 0) {
+              this.deathsCount = "n/a";
+              this.showPopup = true;
+            } else {
               this.deathsCount = answer[0].Cases;
               console.log(this.country, this.deathsCount);
             }
           })
-          .catch(() => {
-            this.showError = true;
-            this.showPopup = true;
+          .catch((error) => {
+            console.log(error);
+            this.showError = true; //we change this in 10places?
           });
       }
     },
   },
+  
 
   data: function () {
     return {
@@ -98,5 +123,10 @@ export default {
     rgba(255, 255, 255, 1) 44%
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c8c1c1",endColorstr="#ffffff",GradientType=1);
+}
+.main {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem;
 }
 </style>

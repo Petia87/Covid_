@@ -14,7 +14,8 @@
       <!-- v-bind country да не е стринг а променлива-->
     </option>
   </select>
-  {{ selectedCountry }}
+ 
+
   <button @click="onReset" name="countries" class="bcountries">
     Clear Country
   </button>
@@ -40,6 +41,8 @@ export default {
   },
   methods: {
     onChange() {
+      //here we can save the selected country in localstorage
+      window.localStorage.setItem("selectedCountry", this.selectedCountry);
       //raise event
       this.$emit("selectedCountry", this.selectedCountry);
     },
