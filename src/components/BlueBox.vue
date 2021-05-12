@@ -29,6 +29,9 @@ margin: 0.5rem;
 
 .covid-status{
    background: rgb(208, 228, 253);
+  box-shadow: 6px 8px 5px 0px rgba(31,26,26,0.2);
+-webkit-box-shadow: 6px 8px 5px 0px rgba(31,26,26,0.2);
+-moz-box-shadow: 6px 8px 5px 0px rgba(31,26,26,0.2);
   }
 .covid-status--deaths{
   background: rgb(177, 211, 255);
@@ -38,8 +41,17 @@ margin: 0.5rem;
 .p1{
   color: blue;
   font-weight:bold;
+  padding:0.2rem;
+ margin-top: 1rem;
 }
 .p2{
   font-weight:bold ;
+  font-size:0.9rem;
+  padding:0.2rem
 }
+.covid-status__total{
+  margin-bottom: 1rem;
+}
+
+
 </style>
