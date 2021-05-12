@@ -80,5 +80,14 @@ button {
   background: rgb(68, 132, 123);
   color: white;
   margin-bottom: 10rem;
+ box-shadow: 6px 6px 5px -2px rgba(31,26,26,0.2);
+-webkit-box-shadow: 6px 6px 5px -2px rgba(31,26,26,0.2);
+-moz-box-shadow: 6px 6px 5px -2px rgba(31,26,26,0.2);
+}
+@media(max-width: 675px){
+  .bcountries{
+    margin-left: 0rem;
+    
+  }
 }
 </style>
