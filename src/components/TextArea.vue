@@ -56,7 +56,10 @@ export default {
           return respons.json();
         })
         .then((result) => {
-          this.countries = result;
+          let sortedCountries=result.sort((a,b)=>
+            a.Country.localeCompare(b.Country))
+           
+          this.countries = sortedCountries;
         });
     },
   },

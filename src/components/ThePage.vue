@@ -32,6 +32,7 @@
       @popupClose="closePopup"
       message="Server is down"
     />
+  
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import BlueBox from "./BlueBox.vue";
 import TextArea from "./TextArea.vue";
 import PopUp from "./PopUp.vue";
 
+
 export default {
   name: "ThePage",
   components: {
@@ -50,6 +52,7 @@ export default {
     BlueBox,
     TextArea,
     PopUp,
+    
   },
   mounted() {
     //mounted livecycle hook vue го извиква в подходящия момент we can search on array-onselected country
@@ -59,14 +62,7 @@ export default {
         return response.json();
       })
       .then((data) => {
-        if (!data.Countries.length == 0) {
-          console.log(data.Countries.length);
-          this.totalCasesCount = "n/a";
-          this.totalDeathsCount = "n/a";
-          this.showPopup = true;
-        } else {
-          this.countries = data.Countries;
-        }
+         this.countries = data.Countries;
       })
       .catch(() => {
         this.showError = true;
@@ -97,14 +93,17 @@ export default {
       if (this.country !== "") {
         this.countryObject = this.countries.find((object) => {
           //predicat returs boolean
+
           return object.Country.toLowerCase() === this.country.toLowerCase();
         });
-        if(this.countryObject.Country){
-        this.totalCasesCount = this.countryObject.TotalConfirmed;
-        this.totalDeathsCount = this.countryObject.TotalDeaths;
-      }else{
-        this.showPopup = true;
-      }
+        if (this.countryObject) {
+          this.totalCasesCount = this.countryObject.TotalConfirmed;
+          this.totalDeathsCount = this.countryObject.TotalDeaths;
+        } else {
+          this.totalCasesCount = "n/a";
+          this.totalDeathsCount = "n/a";
+          this.showPopup = true;
+        }
       }
     },
   },
